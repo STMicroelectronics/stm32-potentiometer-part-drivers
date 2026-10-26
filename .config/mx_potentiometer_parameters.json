@@ -1,0 +1,68 @@
+{
+  "componentid": "::Board Part:STM32CubeMX2 Config:POTENTIOMETER ADC",
+  "type": "object",
+  "grammarVersion": "3.8.0",
+  "license": "Copyright (c) 2026 STMicroelectronics",
+  "properties": {
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "info": {
+          "title": "POTENTIOMETER ADC Configuration",
+          "type": "object",
+          "properties": {
+            "labels": {
+              "type": "array",
+              "title": "SW Label for parts objects",
+              "description": "Labels allow to create aliases inside mx_potentiometer.h file for the object ID and object getter function. These aliases can be used on application side.",
+              "items": {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 32,
+                "unique": "project",
+                "default": "",
+                "actions": [
+                  {
+                    "type": "error",
+                    "condition": "!/^[A-Za-z_][A-Za-z0-9_]*$/.test($value)",
+                    "message": "Name must be a valid C identifier: start with a letter or underscore, and contain only letters, digits, or underscores."
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "resourcesAllocation": {
+          "title": "STM32 resources allocations",
+          "type": "object",
+          "properties": {
+            "adcIoCfg": {
+              "type": "object",
+              "title": "ADC Interface Configuration",
+              "properties": {
+                "adcInstance": {
+                  "type": "object",
+                  "title": "ADC Instance",
+                  "description": "Ensure the ADC is configured in HAL with polling mode, software trigger, and single channel conversion.",
+                  "objectType": "bind.peripheral.config",
+                  "criteria": {
+                    "peripheralType": [
+                      "adc"
+                    ]
+                  },
+                  "actions": [
+                    {
+                      "type": "error",
+                      "condition": "!$resourcesAllocation.adcIoCfg.adcInstance?.selection",
+                      "message": "Please select an ADC instance configured in the ADC Peripheral configuration panel."
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
